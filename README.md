@@ -8,7 +8,7 @@ cargo risczero install
 
 2. testing zkvm  
 cargo risczero new my_project --guest-name guest_code_for_zk_proof  
-git clone https://github.com/Guangguang888/Federated-Learning.git
+git clone https://github.com/GuangguangLu/ZKFed.git
 
 3. FL+ZKVM:Perform zkp on multiple machine learning algorithms  
 cd FL_ZKVM/LR  
