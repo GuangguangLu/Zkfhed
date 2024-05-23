@@ -1,0 +1,3 @@
+The experiments in this code evaluate the time and memory costs invested by FL nodes during the local model verification stage for various ML algorithms based on ZKPs. This stage enables validators to verify and filter out malicious model updates submitted by workers.
+
+We constructed the zkVM environment based on the release-0.18 version of the Risc zero project on the ecs.e3.large instance and implemented the ML training circuit using the Rust programming language version 1.68.0.

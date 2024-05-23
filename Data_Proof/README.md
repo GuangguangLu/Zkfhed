@@ -1,0 +1,3 @@
+This code demonstrates the feasibility and evaluates the costs of the training data screening stage. This stage generates proofs of authenticity for workers' data from various applications (e.g., Twitter, Amazon purchase, LinkedIn skill) without disclosing the original data.
+
+We selected private messages from the well-known social media communication platform, Twitter, as the experimental data. The workers are running on Alibaba Cloud ecs.e3.large instances, and the average round-trip time between workers and Twitter server is 17ms. We requested messages of varying sizes, from 1 to 20 KB, from the Twitter server and generated data proofs.
