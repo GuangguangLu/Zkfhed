@@ -1,9 +1,8 @@
 These codes provide a comprehensive evaluation of zkfhed,  a verifiable and scalable blockchain-enhanced federated learning system.
 
 1. Install Rust & zkVM
-Install Risz Zero  
 curl https://sh.rustup.rs -sSf | sh  
-Install Risz Zero  
+Install Risz Zero zkVM
 cargo install cargo-binstall  
 cargo binstall cargo-risczero  
 cargo risczero install
