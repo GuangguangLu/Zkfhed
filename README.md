@@ -12,7 +12,7 @@ cargo risczero new my_project --guest-name guest_code_for_zk_proof
 
 3. git clone https://github.com/GuangguangLu/Zkfhed.git
 
-4. FL_zkVM: These codes evaluate the time and memory costs invested by FL nodes during the local model verification stage for various ML algorithms based on ZKPs.
+4. FL_zkVM: These codes evaluate the time and memory costs invested by FL nodes during the local model verification stage for various ML algorithms based on ZKPs.  
 cd FL_ZKVM/LR  
 cargo run
 
