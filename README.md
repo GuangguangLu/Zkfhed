@@ -8,24 +8,24 @@ cargo install cargo-binstall
 cargo binstall cargo-risczero  
 cargo risczero install
 
-3. testing zkVM
+2. testing zkVM
 cargo risczero new my_project --guest-name guest_code_for_zk_proof  
 
-4. git clone https://github.com/GuangguangLu/Zkfhed.git
+3. git clone https://github.com/GuangguangLu/Zkfhed.git
 
-5. FL_zkVM: These codes evaluate the time and memory costs invested by FL nodes during the local model verification stage for various ML algorithms based on ZKPs.
+4. FL_zkVM: These codes evaluate the time and memory costs invested by FL nodes during the local model verification stage for various ML algorithms based on ZKPs.
 cd FL_ZKVM/LR  
 cargo run
 
-6. Privacy_Delegation_Mechanism: This code aims to evaluate the scalability of Zkfhed, including running time, online time, and communication overhead during the delegation learning process.  
+5. Privacy_Delegation_Mechanism: This code aims to evaluate the scalability of Zkfhed, including running time, online time, and communication overhead during the delegation learning process.  
 cd Privacy_Delegation_Mechanism/ZKVM+FHE+NN  
 cargo run
 
-7. Blockchain_Query: This code evaluates the query efficiency of the transaction indexing mechanism in Zkfhed.  
+6. Blockchain_Query: This code evaluates the query efficiency of the transaction indexing mechanism in Zkfhed.  
 cd Blockchain_Query  
 cargo run  
 
-8. Data_Proof：This code demonstrates the feasibility and evaluates the costs of the training data screening stage.
+7. Data_Proof：This code demonstrates the feasibility and evaluates the costs of the training data screening stage.
 Install tlsn
 git clone https://github.com/tlsnotary/tlsn.git"
 cd Data_Proof
