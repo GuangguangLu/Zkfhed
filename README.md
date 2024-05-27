@@ -47,11 +47,11 @@ Modify the env.example file and name it env. (The env file in Zkfhed is no longe
 RUN: RUST_LOG=debug,yamux=info cargo run --release --example discord_dm  
 Other Twitter example:(Detailed steps:https://github.com/tlsnotary/tlsn/blob/main/tlsn/examples/twitter/README.md)  
 
-7. FL_zkVM: These codes evaluate the time and memory costs invested by FL nodes during the local model verification stage for various ML algorithms based on ZKPs.
+7. FL_zkVM: These codes evaluate the time and memory costs invested by FL nodes during the local model verification stage for various ML algorithms based on ZKPs.  
 (Due to the rapid update of zkVM versions, you must pay attention to the new directory structure)  
-cd my_project
+cd my_project  
 (Update the corresponding files using the Cargo.toml and main.rs in FL_zkVM/LR/host or method. Please be careful not to break the original code structure.)  
-cargo run
+cargo run  
 
 8. Privacy_Delegation_Mechanism: This code aims to evaluate the scalability of Zkfhed, including running time, online time, and communication overhead during the delegation learning process.  
 cd my_project  
