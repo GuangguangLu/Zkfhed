@@ -33,6 +33,10 @@ git clone https://github.com/tlsnotary/tlsn.git  (root directory)
 --------TEST--------
 cd tlsn/tlsn/examples/simple
 cargo run --release --example simple_prover
+IF ERROR：  
+MOVE: /root/tlsn/components/tls/tls-client/src/lib.rs  
+265 |     unused_qualifications  
+again：cargo run --release --example simple_prover  
 --------TEST--------
 
 cd tlsn/notary-server
