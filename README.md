@@ -38,15 +38,14 @@ Delete: /root/tlsn/components/tls/tls-client/src/lib.rs
 265 |     unused_qualifications  
 again：cargo run --release --example simple_prover  
 --------TEST--------
+Taking Discord data as an example:(https://docs.tlsnotary.org/quick_start/rust.html#rust-simple)
 
 cd tlsn/notary-server
-cargo run --release
-cd tlsn/tlsn/examples/twitter  
-Modify files： Zkfhed\Data_Proof  
-In this tlsn/examples/twitter folder, run the following command:
-RUST_LOG=debug,yamux=info cargo run --release --example twitter_dm
-(Detailed steps:https://github.com/tlsnotary/tlsn/blob/main/tlsn/examples/twitter/README.md)
-
+cargo run --release  
+(Start a new command)  cd tlsn/tlsn/examples/discord  
+Modify files： env  
+RUST_LOG=debug,yamux=info cargo run --release --example discord_dm  
+Other Twitter example:(Detailed steps:https://github.com/tlsnotary/tlsn/blob/main/tlsn/examples/twitter/README.md)  
 
 4. FL_zkVM: These codes evaluate the time and memory costs invested by FL nodes during the local model verification stage for various ML algorithms based on ZKPs.  
 cd FL_ZKVM/LR  
