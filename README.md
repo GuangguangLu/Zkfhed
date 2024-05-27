@@ -43,7 +43,7 @@ cd tlsn/notary-server
 cargo run --release  
 (Start a new command)  
 cd tlsn/tlsn/examples/discord  
-Modify the <env> files. (The env file in Zkfhed is no longer valid)  
+Modify the Modify the env.example file and name it env. (The env file in Zkfhed is no longer valid)  
 RUN: RUST_LOG=debug,yamux=info cargo run --release --example discord_dm  
 Other Twitter example:(Detailed steps:https://github.com/tlsnotary/tlsn/blob/main/tlsn/examples/twitter/README.md)  
 
