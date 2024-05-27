@@ -10,7 +10,7 @@ rustc --version
 2. Install Risz Zero zkVM  
 sudo apt install curl build-essential libssl-dev pkgconf  
 cargo install cargo-binstall  
-cargo binstall cargo-risczero (Note: yes must be entered here)    
+cargo binstall cargo-risczero    (Note: yes must be entered here)    
 cargo risczero install  
  
 4. test zkVM  
