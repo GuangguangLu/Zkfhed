@@ -34,8 +34,7 @@ git clone https://github.com/tlsnotary/tlsn.git  (root directory)
 cd tlsn/tlsn/examples/simple  
 cargo run --release --example simple_prover  
 IF ERROR：  
-Delete: /root/tlsn/components/tls/tls-client/src/lib.rs  
-265 |     unused_qualifications  
+Delete 265 lines: /root/tlsn/components/tls/tls-client/src/lib.rs  (unused_qualifications)
 again：cargo run --release --example simple_prover  
 --------TEST--------  
    
