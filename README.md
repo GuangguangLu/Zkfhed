@@ -31,8 +31,9 @@ cargo run
 Install tlsn (https://docs.tlsnotary.org/quick_start/rust.html)     
 git clone https://github.com/tlsnotary/tlsn.git  (root directory)   
 cd tlsn/tlsn/examples/twitter  
-Modify files： Zkfhed\Data_Proof  (https://github.com/tlsnotary/tlsn/blob/main/tlsn/examples/twitter/README.md)  
-cargo run
+Modify files： Zkfhed\Data_Proof    
+RUST_LOG=debug,yamux=info cargo run --release --example twitter_dm
+(Detailed steps:https://github.com/tlsnotary/tlsn/blob/main/tlsn/examples/twitter/README.md)
 
 
 4. FL_zkVM: These codes evaluate the time and memory costs invested by FL nodes during the local model verification stage for various ML algorithms based on ZKPs.  
