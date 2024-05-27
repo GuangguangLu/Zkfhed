@@ -21,8 +21,19 @@ Successfully running will display:
     Finished `dev` profile [optimized + debuginfo] target(s) in 1m 35s  
     Running `target/debug/host`  
 
-5. git clone https://github.com/GuangguangLu/Zkfhed.git  
-cd Zkfhed  
+5. git clone https://github.com/GuangguangLu/Zkfhed.git  (root directory)  
+
+6. Blockchain_Query: This code evaluates the query efficiency of the transaction indexing mechanism in Zkfhed.  
+cd Zkfhed/Blockchain_Query  
+cargo run
+
+7. Data_Proof：This code demonstrates the feasibility and evaluates the costs of the training data screening stage.  
+Install tlsn (https://docs.tlsnotary.org/quick_start/rust.html)     
+git clone https://github.com/tlsnotary/tlsn.git  (root directory)   
+cd tlsn/tlsn/examples/twitter  
+Modify files： Zkfhed\Data_Proof  (https://github.com/tlsnotary/tlsn/blob/main/tlsn/examples/twitter/README.md)  
+cargo run
+
 
 4. FL_zkVM: These codes evaluate the time and memory costs invested by FL nodes during the local model verification stage for various ML algorithms based on ZKPs.  
 cd FL_ZKVM/LR  
@@ -32,13 +43,4 @@ cargo run
 cd Privacy_Delegation_Mechanism/ZKVM+FHE+NN  
 cargo run
 
-7. Blockchain_Query: This code evaluates the query efficiency of the transaction indexing mechanism in Zkfhed.  
-cd Blockchain_Query  
-cargo run  
 
-8. Data_Proof：This code demonstrates the feasibility and evaluates the costs of the training data screening stage.  
-Install tlsn (https://docs.tlsnotary.org/quick_start/rust.html)     
-git clone https://github.com/tlsnotary/tlsn.git  
-cd tlsn/tlsn/examples/twitter  
-Modify files： Zkfhed\Data_Proof  (https://github.com/tlsnotary/tlsn/blob/main/tlsn/examples/twitter/README.md)  
-cargo run
