@@ -37,9 +37,9 @@ IF ERROR：
 Delete: /root/tlsn/components/tls/tls-client/src/lib.rs  
 265 |     unused_qualifications  
 again：cargo run --release --example simple_prover  
---------TEST--------
+--------TEST--------  
+   
 Taking Discord data as an example:(https://docs.tlsnotary.org/quick_start/rust.html#rust-simple)
-
 cd tlsn/notary-server
 cargo run --release  
 (Start a new command)  cd tlsn/tlsn/examples/discord  
