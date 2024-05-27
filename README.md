@@ -54,7 +54,7 @@ cd my_project
 cargo run
 
 8. Privacy_Delegation_Mechanism: This code aims to evaluate the scalability of Zkfhed, including running time, online time, and communication overhead during the delegation learning process.  
-cd my_project
+cd my_project  
 (Same as above:Update the corresponding files)  
 cargo run
 
