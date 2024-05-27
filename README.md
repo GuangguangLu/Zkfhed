@@ -38,9 +38,9 @@ Delete 265 lines: /root/tlsn/components/tls/tls-client/src/lib.rs  (unused_quali
 again：cargo run --release --example simple_prover  
 --------TEST--------  
 Taking Discord data as an example:(https://docs.tlsnotary.org/quick_start/rust.html#rust-simple)  
-cd tlsn/notary-server
+cd tlsn/notary-server  
 cargo run --release  
-(Start a new command)
+(Start a new command)  
 cd tlsn/tlsn/examples/discord  
 Modify the current <env> files using Data_Proof/env  
 RUST_LOG=debug,yamux=info cargo run --release --example discord_dm  
