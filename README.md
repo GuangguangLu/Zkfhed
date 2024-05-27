@@ -38,7 +38,7 @@ cargo run
 
 8. Data_Proof：This code demonstrates the feasibility and evaluates the costs of the training data screening stage.  
 Install tlsn (https://docs.tlsnotary.org/quick_start/rust.html)     
-git clone https://github.com/tlsnotary/tlsn.git"  
+git clone https://github.com/tlsnotary/tlsn.git  
 cd tlsn/tlsn/examples/twitter  
 Modify files： Zkfhed\Data_Proof  (https://github.com/tlsnotary/tlsn/blob/main/tlsn/examples/twitter/README.md)  
 cargo run
