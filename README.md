@@ -37,12 +37,12 @@ IF ERROR：
 Delete 265 lines: /root/tlsn/components/tls/tls-client/src/lib.rs  (unused_qualifications)  
 again：cargo run --release --example simple_prover  
 --------TEST--------  
-   
 Taking Discord data as an example:(https://docs.tlsnotary.org/quick_start/rust.html#rust-simple)
 cd tlsn/notary-server
 cargo run --release  
-(Start a new command)  cd tlsn/tlsn/examples/discord  
-Modify files： env  
+(Start a new command)
+cd tlsn/tlsn/examples/discord  
+Modify the current <env> files using Data_Proof/env  
 RUST_LOG=debug,yamux=info cargo run --release --example discord_dm  
 Other Twitter example:(Detailed steps:https://github.com/tlsnotary/tlsn/blob/main/tlsn/examples/twitter/README.md)  
 
