@@ -29,10 +29,10 @@ cargo run
 
 7. Data_Proof：This code demonstrates the feasibility and evaluates the costs of the training data screening stage.  
 Install tlsn (https://docs.tlsnotary.org/quick_start/rust.html)     
-git clone https://github.com/tlsnotary/tlsn.git  (root directory)
---------TEST--------
-cd tlsn/tlsn/examples/simple
-cargo run --release --example simple_prover
+git clone https://github.com/tlsnotary/tlsn.git  (root directory)  
+--------TEST--------  
+cd tlsn/tlsn/examples/simple  
+cargo run --release --example simple_prover  
 IF ERROR：  
 MOVE: /root/tlsn/components/tls/tls-client/src/lib.rs  
 265 |     unused_qualifications  
