@@ -10,10 +10,10 @@ rustc --version
 2. Install Risz Zero zkVM  
 sudo apt install curl build-essential libssl-dev pkgconf  
 cargo install cargo-binstall  
-cargo binstall cargo-risczero  
+cargo binstall cargo-risczero (Note: yes must be entered here)    
 cargo risczero install  
  
-3. test zkVM  
+4. test zkVM  
 cargo risczero new my_project  
 cd my_project  
 cargo run  
@@ -21,7 +21,7 @@ Successfully running will display:
     Finished `dev` profile [optimized + debuginfo] target(s) in 1m 35s  
     Running `target/debug/host`  
 
-4. git clone https://github.com/GuangguangLu/Zkfhed.git  
+5. git clone https://github.com/GuangguangLu/Zkfhed.git  
 cd Zkfhed  
 
 4. FL_zkVM: These codes evaluate the time and memory costs invested by FL nodes during the local model verification stage for various ML algorithms based on ZKPs.  
