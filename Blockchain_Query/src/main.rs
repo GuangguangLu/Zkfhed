@@ -8,14 +8,14 @@ use rand::rngs::StdRng;
 
 use std::fmt;
 use std::collections::HashMap;
-use std::sync::Arc;    // trait 有七个函数
+use std::sync::Arc;    
 use eth_trie::MemoryDB;
 use eth_trie::{EthTrie, Trie, TrieError};
 use std::time::Instant;
 
 use tiny_keccak::{Hasher, Keccak};
 
-// 使用静态字符串作为指向最后一个区块头的全局key
+// Using static strings as global keys pointing to the last block header
 static GLOBAL_BLOCK_KEY: [u8; 32] = [
     1, 2, 3, 4, 5, 6, 7, 8, 9, 10,
     11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
@@ -24,8 +24,7 @@ static GLOBAL_BLOCK_KEY: [u8; 32] = [
 ];
 
 
-// 定义区块头结构体  //BlockHeader_MAP:的key是[u8; 256]，value是[u8; 256]。  但是可以转为16进制。
-// hash就是16进制，等于10进制的[u8; 32]
+//Block head structure
 #[derive(Clone, Debug)]
 struct BlockHeader {
     bloom: [u8; 256],
@@ -36,8 +35,8 @@ struct BlockHeader {
 
 
 
-#[derive(Clone, Debug)]  //应该有两种类型的交易，并且每个交易中只有一个指针
-struct Transaction {  //RN相同，CID不同，用FHP建立索引
+#[derive(Clone, Debug)]  
+struct Transaction {  
     From: [u8; 20],
     To: [u8; 20],
     RN: [u8; 1],
