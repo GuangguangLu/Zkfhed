@@ -55,14 +55,14 @@ pub fn main() {
     
     let pk1: Polynomial<i128> = Polynomial::new(pk1_v);
 
-    //  多项式模数
+    // Polynomial modulus
     let mut poly_mod_v = vec![0; N as usize + 1];
     poly_mod_v[0] = 1;
     poly_mod_v[N as usize] = 1;
     let poly_mod: Polynomial<i128> = Polynomial::new(poly_mod_v);
  
     
-    // 计算 pk0 = -a * pk1
+    //  pk0 = -a * pk1
     let r = -(&pk1 * &sk);  
     let mut pk0 = r.clone();
     let shang = pk0.division(&poly_mod);
@@ -86,7 +86,7 @@ pub fn main() {
     }
     let u: Polynomial<i128> = Polynomial::new(u_v);
     
-    //生成EK0 和 EK1
+    //generate EK0 和 EK1
     let sk2 = poly_mod_poly(sk.clone()*sk.clone(),poly_mod.clone());
     let pk1sk = poly_mod_poly(-pk1.clone()*sk.clone(),poly_mod.clone());
     let EK0: Polynomial<i128> = sk2 + pk1sk;
