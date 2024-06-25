@@ -15,7 +15,7 @@ use std::io::{BufRead, BufReader};
 pub fn main() {
 
     
-    println!("第一步： --------------------初始化参数，密钥, 代码固定，只需要改QTN -------------------------：");
+    println!("Step 1: -------- Initialize parameters ------------------：");
     const N: i128 = 16;
     const t: i128 = 33554432;      
     const q: i128 = 1073741824;      
@@ -92,9 +92,8 @@ pub fn main() {
     let EK0: Polynomial<i128> = sk2 + pk1sk;
     let EK1: Polynomial<i128> = pk1.clone();
 
-    println!(" --------------第一步完成：初始化参数，密钥, 代码固定，只需要改QTN----------------------：");
-    println!("测试BGV工具-----------------------------------------------------");
-    println!("测试BGV工具-----------------------------------------------------");
+    println!(" --------------Initialization completed---------------------：");
+
     
     let (inputs, targets) = read_dataset::<i128>(pk0.clone(), pk1.clone(), u.clone(), poly_mod.clone(), q_poly.clone(),t_poly.clone(),sk.clone());
     //println!("{:?}", inputs.len());
@@ -102,21 +101,21 @@ pub fn main() {
     //println!("{:?}", targets.len());
     //println!("{:?}", inputs);
     
-    println!("读取数据集加密成功-----------------------------------------------------");
+    println!("Successfully read dataset-----------------------------------------------------");
     
-    let input_size = inputs[0].len();  //根据数据集，获取输入出的大小
+    let input_size = inputs[0].len();  
     let hidden_size = 10;
     let output_size = 1;
     let learning_rate = 0.00000001;
-    println!("模型初始化成功-----------------------------------------------------");
+    println!("Model initialization successful----------------------------------------------");
     let mut nn = NeuralNetwork::new(input_size, hidden_size, output_size, learning_rate,pk0.clone(),pk1.clone(), u.clone(),poly_mod.clone(),q_poly.clone(),t_poly.clone(),EK0.clone(),EK1.clone(),sk.clone());
     //println!("{:?}", nn.weights_ih.len());
     //println!("{:?}", nn.weights_ih[0].len());
     //println!("{:?}", nn.weights_ih);
     
-    println!("开始训练-----------------------------------------------------");
+    println!("Start training-----------------------------------------------------");
     nn.train(&inputs, &targets,10,pk0.clone(),pk1.clone(), u.clone(),poly_mod.clone(),q_poly.clone(),t_poly.clone(),EK0.clone(),EK1.clone(),sk.clone());
-    println!("模型训练结束-----------------------------------------------------");
+    println!("Training completed-----------------------------------------------------");
     
     
 }
@@ -141,7 +140,7 @@ impl NeuralNetwork {
         
         let mut weights_ih = vec![vec![ciperw0.clone(); hidden_size]; input_size];  
         let mut weights_ho = vec![vec![ciperw0.clone(); output_size]; hidden_size];
-        // 不能为初始矩阵赋值相同
+
         
         let seed2: [u8; 32] = [1; 32];
         
@@ -150,7 +149,7 @@ impl NeuralNetwork {
         for i in 0..input_size {
             for j in 0..hidden_size {
                 let suijishu = rng.gen_range(-100..100);
-                //println!("suijishu:{:?}", suijishu);   生成随机数
+                //println!("suijishu:{:?}", suijishu);   
                 let chushi_w = Polynomial::new(vec![suijishu]);
                 let chushi_w_cipher = encrypt(chushi_w,pk0.clone(),pk1.clone(),u.clone(),poly_mod.clone(), q_poly.clone());
                 weights_ih[i][j] = chushi_w_cipher;
@@ -166,10 +165,10 @@ impl NeuralNetwork {
             }
         }
         
-        //模型信息初始化结束
+        //Model information initialization completed
         
         let a = decrypt(weights_ih[1][0].clone(),sk.clone(),poly_mod.clone(),q_poly.clone(),t_poly.clone());
-        //println!("测试加密后的模型权重能否解密成功:{:?}", a);   // 解密成功       
+        //println!("Test decryption:{:?}", a);      
         
         NeuralNetwork {
             input_size,
@@ -182,20 +181,20 @@ impl NeuralNetwork {
     }
     
     fn forward(&self, input: &Vec<CtStruct<i128>>, pk0: Polynomial<i128>,pk1: Polynomial<i128>,u: Polynomial<i128>,poly_mod: Polynomial<i128>,q_poly: Polynomial<i128>,t_poly: Polynomial<i128>,EK0: Polynomial<i128>,EK1: Polynomial<i128>,sk: Polynomial<i128>) -> Vec<CtStruct<i128>> { 
-        //由于输入的input是一维的，所以要把它构造成二维
+        //Construct one-dimensional input into two-dimensional
         let hidden = &multiply_matrices(&vec![input.to_vec()], &self.weights_ih,pk0.clone(),pk1.clone(),u.clone(),poly_mod.clone(),q_poly.clone(),t_poly.clone(),EK0.clone(),EK1.clone(),sk.clone())[0];  
         
         let test = decrypt(hidden[0].clone(),sk.clone(),poly_mod.clone(),q_poly.clone(),t_poly.clone());
-        //println!("测试 前向传播过程中的，hidden，能否解密成功:{:?}", test);  
+        //println!("Test decryption:{:?}", test);  
         
         //println!("hiddenhiddenhiddenhiddenhidden{:?}", hidden);
         let output = &multiply_matrices(&vec![hidden.to_vec()], &self.weights_ho,pk0.clone(),pk1.clone(),u.clone(),poly_mod.clone(),q_poly.clone(),t_poly.clone(),EK0.clone(),EK1.clone(),sk.clone())[0];   
-        //println!("outputoutputoutputoutput{:?}", output); ///一维的一个向量，里面只有一个Ct（两个多项式），这个值已经超过了T，
+        //println!("outputoutputoutputoutput{:?}", output); 
         
         
-        //测试output能否解密成功
+
         let a = decrypt(output[0].clone(),sk.clone(),poly_mod.clone(),q_poly.clone(),t_poly.clone());
-        //println!("测试output能否解密成功:{:?}", a);   //
+        //println!("Test decryption:{:?}", a);   //
      
     
         return output.to_vec();
@@ -206,7 +205,7 @@ impl NeuralNetwork {
     
     fn backward(&mut self, input: &Vec<CtStruct<i128>>, target: CtStruct<i128>, output: &Vec<CtStruct<i128>>, pk0: Polynomial<i128>, pk1: Polynomial<i128>, u: Polynomial<i128>, poly_mod: Polynomial<i128>,q_poly: Polynomial<i128>,t_poly: Polynomial<i128>,EK0: Polynomial<i128>,EK1: Polynomial<i128>,sk: Polynomial<i128>) {
         
-        // 计算输出层梯度
+        // Calculate output layer gradient
         let mut output_gradients: Vec<CtStruct<i128>> = Vec::new();     
         
         for i in 0..self.output_size {   
@@ -214,24 +213,24 @@ impl NeuralNetwork {
             let error = c_sub_c(output[i].clone(),target.clone(),q_poly.clone());
             //println!("errorerrorerrorerrorerror{:?}", error);
             output_gradients.push(error);
-            //println!("密文的梯度信息为：{:?}", output_gradients);
+            
         }
 
      
         let m_output_gradients = decrypt(output_gradients[0].clone(),sk.clone(),poly_mod.clone(),q_poly.clone(),t_poly.clone());
         let a = m_output_gradients.polys[0].coeffs()[0];  
         let a_float = a as f64; 
-        let m_output_gradients_LR = a_float * self.learning_rate; //浮点数 * LR
+        let m_output_gradients_LR = a_float * self.learning_rate; 
         let z_m_output_gradients_LR = m_output_gradients_LR as i128; 
         
-        //println!("梯度信息为{:?}", z_m_output_gradients_LR);  
+        //println!("{:?}", z_m_output_gradients_LR);  
          
         let z_vec = vec![z_m_output_gradients_LR];  
         let z_m_output_gradients_LR_poly = Polynomial::new(z_vec);   
         let c_output_gradients_LR = encrypt(z_m_output_gradients_LR_poly.clone(),pk0.clone(),pk1.clone(),u.clone(),poly_mod.clone(), q_poly.clone());   
         
 
-        // 更新隐藏层到输出层的权重
+        // Update weights from hidden layers to output layers
         let hidden = &multiply_matrices(&vec![input.to_vec()], &self.weights_ih,pk0.clone(),pk1.clone(),u.clone(),poly_mod.clone(),q_poly.clone(),t_poly.clone(),EK0.clone(),EK1.clone(),sk.clone())[0];
 
         for i in 0..self.hidden_size { 
@@ -245,7 +244,7 @@ impl NeuralNetwork {
             }
         }
         
-        // 计算隐藏层梯度 
+        // Calculate hidden layer gradient
         let mut hidden_gradients: Vec<CtStruct<i128>> = Vec::new();
         for i in 0..self.hidden_size { 
             
@@ -255,7 +254,7 @@ impl NeuralNetwork {
         }
 
     
-        // 更新输入层到隐藏层的权重
+        // Update weights from input layer to hidden layer
         for i in 0..self.input_size {
             for j in 0..self.hidden_size {   
                 
@@ -267,13 +266,13 @@ impl NeuralNetwork {
         }
         
 
-    }   // 反向传播结束
+    }   // End of backpropagation
     
     
     fn train(&mut self, inputs: &Vec<Vec<CtStruct<i128>>>, targets: &Vec<CtStruct<i128>> ,epochs: i128,pk0: Polynomial<i128>,pk1: Polynomial<i128>, u: Polynomial<i128>,poly_mod: Polynomial<i128>,q_poly: Polynomial<i128>,t_poly: Polynomial<i128>,EK0: Polynomial<i128>,EK1: Polynomial<i128>,sk: Polynomial<i128>) {
         
         for i in 0..epochs {
-            eprintln!("第{:?}次模型训练开始", i);
+            eprintln!("The {:?} th model training begins", i);
             //let mut total_loss = 0;
             for (input, target) in inputs.iter().zip(targets.iter()) { 
                 let output = self.forward(input,pk0.clone(),pk1.clone(),u.clone(),poly_mod.clone(),q_poly.clone(),t_poly.clone(),EK0.clone(),EK1.clone(),sk.clone());    
@@ -306,7 +305,7 @@ impl NeuralNetwork {
             }
             
             
-            //println!("解密后的预测值  a  为--------------------{:?}", ming_output.polys[0].coeffs());
+           
             let mut a = ming_output.polys[0].coeffs()[0];
             
             if (a < 100000 && b == 0) {   
@@ -324,14 +323,14 @@ impl NeuralNetwork {
 }
 
 
-// 密文矩阵相乘函数
+// Ciphertext matrix multiplication function
 fn multiply_matrices(a: &Vec<Vec<CtStruct<i128>>>, b: &Vec<Vec<CtStruct<i128>>>,pk0: Polynomial<i128>,pk1: Polynomial<i128>,u: Polynomial<i128>,poly_mod: Polynomial<i128>,q_poly: Polynomial<i128>,t_poly: Polynomial<i128>,EK0: Polynomial<i128>,EK1: Polynomial<i128>,sk: Polynomial<i128>) -> Vec<Vec<CtStruct<i128>>> {
     
 
-    //没问题
-    assert!(a[0].len() == b.len(), "矩阵：A and B can't be MULTIPLIED");
+    
+    assert!(a[0].len() == b.len(), "A and B can't be MULTIPLIED");
 
-    let mut result: Vec<Vec<CtStruct<i128>>> = vec![vec![CtStruct { polys: Vec::new() }; b[0].len()]; a.len()]; // ↑测试通过↓
+    let mut result: Vec<Vec<CtStruct<i128>>> = vec![vec![CtStruct { polys: Vec::new() }; b[0].len()]; a.len()]; 
     let ling: Polynomial<i128> = Polynomial::new(vec![0]);
     let ling_cipher = encrypt(ling,pk0.clone(),pk1.clone(),u.clone(),poly_mod.clone(), q_poly.clone());
     
@@ -339,9 +338,7 @@ fn multiply_matrices(a: &Vec<Vec<CtStruct<i128>>>, b: &Vec<Vec<CtStruct<i128>>>,
         for j in 0..b[0].len() { 
             let mut add1 = ling_cipher.clone();
             for k in 0..b.len() {  
-                //println!("a[i][k] ，密文1为：------------：{:?}", a[i][k]);  //a[i][k] 是一个密文
-                //println!("b[k][j] ，密文1为：------------：{:?}", b[k][j]);
-                
+                    
                 
                 let mut mid_result = c_mul_c(a[i][k].clone(),b[k][j].clone(),poly_mod.clone(),q_poly.clone(),EK0.clone(),EK1.clone());
                                 
@@ -398,7 +395,7 @@ fn read_dataset<T: std::clone::Clone+ for<'x> std::ops::SubAssign<&'x T>+ for<'x
         }
     }
         
-    //测试数据集是否加密成功
+    //Test if the dataset was successfully encrypted
     //let a = decrypt(c_data[0][0].clone(),sk.clone(),poly_mod.clone(),q_poly.clone(),t_poly.clone());
     return (c_data,c_labels);
 }
@@ -463,7 +460,7 @@ pub fn encrypt<T: std::clone::Clone+ for<'x> std::ops::SubAssign<&'x T>+ for<'x>
 }
 
 pub fn c_add_c<T: std::clone::Clone+ for<'x> std::ops::SubAssign<&'x T>+ for<'x> std::ops::AddAssign<&'x T>+ for<'x> std::ops::MulAssign<&'x T>+ for<'x> std::ops::DivAssign<&'x T>+ num_traits::identities::Zero + std::fmt::Debug + std::ops::Rem<i128, Output = T>>(ct0: CtStruct<T>,ct1: CtStruct<T>, q_poly: Polynomial<T>) -> CtStruct<T>  where <T as Rem<i128>>::Output: Debug, <T as Rem<i128>>::Output: num_traits::Zero {
-    // 密文长度不同时候，也是对应项，相加
+
     let mut out_cipher = ct0; 
     for i in 0..2 {
         out_cipher.polys[i] += &ct1.polys[i];
@@ -475,7 +472,7 @@ pub fn c_add_c<T: std::clone::Clone+ for<'x> std::ops::SubAssign<&'x T>+ for<'x>
 }
 
 pub fn c_sub_c<T: std::clone::Clone+ for<'x> std::ops::SubAssign<&'x T>+ for<'x> std::ops::AddAssign<&'x T>+ for<'x> std::ops::MulAssign<&'x T>+ for<'x> std::ops::DivAssign<&'x T>+ num_traits::identities::Zero + std::fmt::Debug + std::ops::Rem<i128, Output = T>>(ct0: CtStruct<T>,ct1: CtStruct<T>, q_poly: Polynomial<T>) -> CtStruct<T>  where <T as Rem<i128>>::Output: Debug, <T as Rem<i128>>::Output: num_traits::Zero {
-    // 密文长度不同时候，也是ct0 - ct1,  增加ct0密文的长度。 比add加法，多传两个参数
+
     let mut out_cipher = ct0; 
     for i in 0..2 {
         out_cipher.polys[i] -= &ct1.polys[i];
@@ -526,7 +523,7 @@ pub fn c_mul_c<T: std::clone::Clone+ for<'x> std::ops::SubAssign<&'x T>+ for<'x>
             }
         }
     }
-    //println!("将乘法后的三项变为两项： -------------------------------------------：");
+
     let rec1 = out_cipher.polys[0].clone() + poly_mod_poly(EK0.clone()*out_cipher.polys[2].clone(),poly_mod.clone());
     let rec2 = out_cipher.polys[1].clone() + poly_mod_poly(EK1.clone()*out_cipher.polys[2].clone(),poly_mod.clone());
     
