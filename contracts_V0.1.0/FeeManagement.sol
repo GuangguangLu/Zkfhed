@@ -5,8 +5,8 @@ contract FeeManagement {
 
     address public owner;
 
-    mapping(address => uint) public stakedBalances;  //质押token
-    mapping(address => uint) public feesPaid;   //requester 支付 token
+    mapping(address => uint) public stakedBalances;  //stake token
+    mapping(address => uint) public feesPaid;   //requester pay fee
     uint public totalFees;
 
     event TokensStaked(address indexed staker, uint amount);
@@ -18,14 +18,14 @@ contract FeeManagement {
         owner = msg.sender;
     }
 
-    // Validator质押Token
+    // Validator stake Token
     function stakeTokens() public payable {
         require(msg.value > 0, "Must stake a positive amount of tokens");
         stakedBalances[msg.sender] += msg.value;
         emit TokensStaked(msg.sender, msg.value);
     }
 
-    // Validator注销并退还Token
+    // Validator return token
     function unstakeTokens() public {
         uint amount = stakedBalances[msg.sender];
         require(amount > 0, "No tokens to unstake");
@@ -34,7 +34,7 @@ contract FeeManagement {
         emit TokensUnstaked(msg.sender, amount);
     }
 
-    // Requester支付费用
+    // Requester pay fee
     function payFees() public payable {
         require(msg.value > 0, "Must pay a positive amount of fees");
         feesPaid[msg.sender] += msg.value;
@@ -42,7 +42,7 @@ contract FeeManagement {
         emit FeesPaid(msg.sender, msg.value);
     }
 
-    // 任务结束后分配费用，example
+    // Allocate expenses after the task is completed
     function distributeFees(
         address payable[] memory validators, 
         address payable[] memory workers, 
@@ -59,17 +59,17 @@ contract FeeManagement {
         // Reset total fees before transferring to avoid re-entrancy attacks
         totalFees = 0;
 
-        // 分配给validators
+        // validators
         for (uint i = 0; i < validators.length; i++) {
             validators[i].transfer(validatorShare);
         }
 
-        // 分配给workers
+        // workers
         for (uint i = 0; i < workers.length; i++) {
             workers[i].transfer(workerShare);
         }
 
-        // 分配给dataOwners
+        // dataOwners
         for (uint i = 0; i < dataOwners.length; i++) {
             dataOwners[i].transfer(dataOwnerShare);
         }
@@ -77,12 +77,12 @@ contract FeeManagement {
         emit FeesDistributed(validatorShare * validators.length + workerShare * workers.length + dataOwnerShare * dataOwners.length, validators, workers, dataOwners);
     }
 
-    // 获取质押的Token余额
+    // Obtain the balance of stake tokens
     function getStakedBalance(address staker) public view returns (uint) {
         return stakedBalances[staker];
     }
 
-    // 获取支付的费用余额
+    // Obtain the balance of pay fee
     function getFeesPaid(address payer) public view returns (uint) {
         return feesPaid[payer];
     }
