@@ -12,7 +12,7 @@ contract TaskManagement {
 
     constructor() {}
 
-    function submitTask(  //从event中获取并调度worker，链上仅记录worker被分配的CID，即训练任务。
+    function submitTask( 
         string memory _requestCID1,
         string memory _requestCID2,
         address worker1,
