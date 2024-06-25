@@ -45,7 +45,7 @@ fn main() {
 
     let duration1 = start1.elapsed(); 
 
-    println!("生成proof的时间为: {:?}", duration1);
+    println!("The proof generation time is: {:?}", duration1);
 
     let start2 = Instant::now(); 
 
@@ -58,5 +58,5 @@ fn main() {
 
     let duration2 = start2.elapsed(); 
 
-    println!("验证proof的时间为: {:?}", duration2);
+    println!("The proof verification time is: {:?}", duration2);
 }
