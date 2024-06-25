@@ -11,7 +11,7 @@ use std::fs;
 
 fn main() {
     // Initialize tracing. In order to view logs, run `RUST_LOG=info cargo run`
-    let start1 = Instant::now(); // 开始计时   
+    let start1 = Instant::now(); 
     env_logger::init();   
 
     // An executor environment describes the configurations for the zkVM
@@ -43,11 +43,11 @@ fn main() {
     let file_path = "proof.bin";
     let _ = fs::write(file_path, &serialized_data);
 
-    let duration1 = start1.elapsed(); // 计算经过的时间
+    let duration1 = start1.elapsed(); 
 
-    println!("生成proof的时间为: {:?}", duration1);
+    println!("The proof generation time is: {:?}", duration1);
 
-    let start2 = Instant::now(); // 开始计时 
+    let start2 = Instant::now(); 
 
     // For example:
     let _output: u32 = receipt.journal.decode().unwrap();
@@ -56,7 +56,7 @@ fn main() {
     // verify your receipt
     receipt.verify(METHOD_ID).unwrap();
 
-    let duration2 = start2.elapsed(); // 计算经过的时间
+    let duration2 = start2.elapsed(); 
 
-    println!("验证proof的时间为: {:?}", duration2);
+    println!("The proof verification time is: {:?}", duration2);
 }
