@@ -19,13 +19,13 @@ contract RegistrationContract {
         powerManagement = PowerManagement(_powerManagementAddress);
     }
 
-    // 注册Requester
+    // registerRequester
     function registerRequester(
         string calldata _zkProgramCID,
         string calldata _accessRequirements,
         string calldata _dataDescription
     ) public payable {
-        // 调用FeeManagement合约进行支付
+        //Calling the FeeManagement contract for payment
         feeManagement.payFees{value: msg.value}();
 
         emit RequesterRegistered(
@@ -37,29 +37,29 @@ contract RegistrationContract {
         );
     }
     
-    // 注册Data Owner
+    // registerDataOwner
     function registerDataOwner(
         string calldata _requestCID
     ) public {
         emit DataOwnerRegistered(msg.sender, _requestCID);
     }
     
-    // 注册Worker
+    // registerWorker
     function registerWorker(
         string calldata _machineResources
     ) public {
-        // 调用Power Management合约进行worker注册
+        // Calling the Power Management contract for worker registration
         powerManagement.registerWorker(_machineResources);
 
         emit WorkerRegistered(msg.sender, _machineResources);
     }
     
-// 注册Validator
+// registerValidator
     function registerValidator(
         string calldata machineResources
     ) public payable {
 
-        // 调用FeeManagement合约进行质押
+        // Call FeeManagement contract for staking
         feeManagement.stakeTokens{value: msg.value}();
 
         emit ValidatorRegistered(msg.sender, machineResources, msg.value);
