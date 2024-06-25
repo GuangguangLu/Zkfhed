@@ -1,12 +1,9 @@
-// 函数话 //
-// polynomial-ring = "0.5.0"
 
 #![no_main]
 
 
 
 
-//改动： sigmoid里边x的符号，梯度计算时的学习率符号，损失函数，隐藏层大小
 use risc0_zkvm::guest::env;
 use rand::rngs::StdRng;
 use rand::{thread_rng, Rng, SeedableRng};
@@ -37,10 +34,10 @@ fn read_dataset() -> (Vec<Vec<f64>>, Vec<f64>) {
     (data, labels)
 }
 
-// 矩阵计算   √
+
 fn multiply_matrices(a: &Vec<Vec<f64>>, b: &Vec<Vec<f64>>) -> Vec<Vec<f64>> {
-    assert!(a[0].len() == b.len(), "矩阵：A and B can't be MULTIPLIED");
-    let mut result = vec![vec![0.0; b[0].len()]; a.len()]; //先写列，再写行。
+    assert!(a[0].len() == b.len(), "A and B can't be MULTIPLIED");
+    let mut result = vec![vec![0.0; b[0].len()]; a.len()]; 
 
     for i in 0..a.len() {
         //3
@@ -129,7 +126,7 @@ impl NeuralNetwork {
     } 
 
     fn backward(&mut self, input: &Vec<f64>, target: f64, output: &Vec<f64>) {
-        // 计算输出层梯度
+        // Calculate output layer gradient
         let mut output_gradients = Vec::new();
         for i in 0..self.output_size {
             // let error = -2.0 * (target - output[i]); 
@@ -138,7 +135,7 @@ impl NeuralNetwork {
             output_gradients.push(gradient); 
         }
 
-        // 更新隐藏层到输出层的权重
+        // Update weights from hidden layers to output layers
         let hidden = &multiply_matrices(&vec![input.clone()], &self.weights_ih)[0]; 
 
         for i in 0..self.hidden_size {
@@ -148,7 +145,7 @@ impl NeuralNetwork {
             }
         }
 
-        // 计算隐藏层梯度
+        // Calculate hidden layer gradient
         let mut hidden_gradients = Vec::new(); 
         for i in 0..self.hidden_size {
             let mut error = 0.0;
@@ -159,7 +156,7 @@ impl NeuralNetwork {
             hidden_gradients.push(gradient); 
         }
 
-        // 更新输入层到隐藏层的权重
+        // Update weights from input layer to hidden layer
         for i in 0..self.input_size {
             for j in 0..self.hidden_size {
                 let delta_w = self.learning_rate * hidden_gradients[j] * input[i]; 
@@ -175,7 +172,7 @@ impl NeuralNetwork {
                 let output = self.forward(input);
                 //println!("outputoutputoutput{:?}", output);
                 let loss = 0.5 * (*target - output[0]).powi(2);  
-                //let loss: f64 = -(target * output[0].log2() + (1.0-target) * (1.0 - output[0]).log2());  //二元交叉熵损失函数
+                //let loss: f64 = -(target * output[0].log2() + (1.0-target) * (1.0 - output[0]).log2());  
                 total_loss += loss;
                 self.backward(input, *target, &output);
             }
@@ -198,7 +195,7 @@ fn main() {
 
     let mut nn = NeuralNetwork::new(input_size, hidden_size, output_size, learning_rate);
     nn.train(&inputs, &targets, 10);
-    //println!("训练结束后模型信息为：{:?}%", nn.weights_ih);
+
     
     //let accuracy = nn.test(&inputs, &targets);
     
