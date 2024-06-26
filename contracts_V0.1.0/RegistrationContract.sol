@@ -43,14 +43,14 @@ contract RegistrationContract {
     event DataOwnerRegistered(address indexed dataOwnerAddress, string name, string description, string requestCID);
     event WorkerRegistered(address indexed workerAddress, string name, string description, address ownerAddress);
     
-    constructor(address _feeManagementAddress, address _powerManagementAddress) {  //构造函数，开始时自动执行，需要修改
+    constructor(address _feeManagementAddress, address _powerManagementAddress) {  
         feeManagement = FeeManagement(_feeManagementAddress);
         //0xd9145CCE52D386f254917e481eB44e9943F39138
         powerManagement = PowerManagement(_powerManagementAddress);
         //0xd8b934580fcE35a11B58C6D73aDeE468a2833fa8
     }
     
-    // 注册Requester
+    // register Requester
     function registerRequester(
         string memory _name,
         string memory _description,
@@ -60,7 +60,7 @@ contract RegistrationContract {
     ) public payable {
         require(requesters[msg.sender].requesterAddress == address(0), "Requester already registered");
         
-        // 调用FeeManagement合约进行支付
+        // Calling the FeeManagement contract for payment
         feeManagement.payFees{value: msg.value}();
         
         requesters[msg.sender] = Requester({   
@@ -76,7 +76,7 @@ contract RegistrationContract {
         emit RequesterRegistered(msg.sender, _name, _description, _zkProgramCID, msg.value);
     }
     
-    // 注册Data Owner
+    // register Data Owner
     function registerDataOwner(
         string memory _name,
         string memory _description,
@@ -84,7 +84,7 @@ contract RegistrationContract {
     ) public {
         require(dataOwners[msg.sender].dataOwnerAddress == address(0), "Data Owner already registered");
         
-        dataOwners[msg.sender] = DataOwner({   //相当于写入数组，  dataowner[地址]= 数据。
+        dataOwners[msg.sender] = DataOwner({  
             dataOwnerAddress: msg.sender,
             name: _name,
             description: _description,
@@ -94,7 +94,7 @@ contract RegistrationContract {
         emit DataOwnerRegistered(msg.sender, _name, _description, _requestCID);
     }
     
-    // 注册Worker
+    // register Worker
     function registerWorker(
         string memory _name,
         string memory _description,
@@ -103,13 +103,13 @@ contract RegistrationContract {
         uint16 _port,
         string memory _publicKey
     ) public {
-        // 调用Power Management合约进行worker注册
+        // Calling the Power Management contract for worker registration
         powerManagement.registerWorker(_name, _description, _machineResources, _rpcAddress, _port, _publicKey);
         
         emit WorkerRegistered(msg.sender, _name, _description, msg.sender);
     }
     
-    // 注册Validator
+    // register Validator
     function registerValidator(
         string memory _name, 
         string memory _description
@@ -117,10 +117,10 @@ contract RegistrationContract {
         require(validators[msg.sender].validatorAddress == address(0), "Validator already registered");
         require(msg.value > 0, "Validator must stake tokens");
         
-        // 调用FeeManagement合约进行质押
+        // Call FeeManagement contract for staking
         feeManagement.stakeTokens{value: msg.value}();
         
-        validators[msg.sender] = Validator({  //注册成功的，质押token的validators
+        validators[msg.sender] = Validator({  
             validatorAddress: msg.sender,
             name: _name,
             description: _description,
@@ -130,30 +130,30 @@ contract RegistrationContract {
         emit ValidatorRegistered(msg.sender, _name, _description, msg.value);
     }
     
-    // 注销Validator
+    // unregister Validator
     function unregisterValidator() public {
         require(validators[msg.sender].validatorAddress != address(0), "Validator not registered");
         
-        // 调用FeeManagement合约退还质押的Token
+        // Call FeeManagement contract to return pledged tokens
         feeManagement.unstakeTokens();
         
-        // 清除Validator的注册信息
+        
         delete validators[msg.sender];
         
         emit ValidatorUnregistered(msg.sender, validators[msg.sender].stakedToken);
     }
     
-    // 查询某个Validator的信息
+
     function getValidatorInfo(address _validatorAddress) public view returns (Validator memory) {
         return validators[_validatorAddress];
     }
     
-    // 查询某个Requester的信息
+
     function getRequesterInfo(address _requesterAddress) public view returns (Requester memory) {
         return requesters[_requesterAddress];
     }
     
-    // 查询某个Data Owner的信息
+
     function getDataOwnerInfo(address _dataOwnerAddress) public view returns (DataOwner memory) {
         return dataOwners[_dataOwnerAddress];
     }
