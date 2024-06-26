@@ -19,7 +19,7 @@ contract PowerManagement {
     event WorkerRegistered(address indexed workerAddress, string name, string description);
 
 
-    // 注册Worker
+
     function registerWorker(
         string memory _name,
         string memory _description,
@@ -44,7 +44,7 @@ contract PowerManagement {
         emit WorkerRegistered(msg.sender, _name, _description);
     }
 
-    // 获取所有注册的worker地址
+
     function getAllWorkers() public view returns (address[] memory) {
         return workerAddresses;
     }
