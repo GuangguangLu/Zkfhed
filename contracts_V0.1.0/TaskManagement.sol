@@ -21,7 +21,7 @@ contract TaskManagement {
         powerManagement = PowerManagement(_powerManagementAddress);
     }
 
-    // 提交任务请求
+    // Submit task
     function submitTask(
         address[] memory _dataOwnerAddresses,
         string[] memory _requestCIDs,
@@ -30,12 +30,12 @@ contract TaskManagement {
     ) public {
         require(_dataOwnerAddresses.length == _requestCIDs.length, "Data owners and request CIDs length mismatch");
 
-        // 获取所有注册的workers
+        // Get all registered workers
         address[] memory allWorkers = powerManagement.getAllWorkers();
         uint numWorkers = allWorkers.length;
         require(numWorkers >= 3, "Not enough registered workers");
 
-        // 分配任务
+        // Assign tasks
         for (uint i = 0; i < _requestCIDs.length; i++) {
             address[] memory assignedWorkers = new address[](3);
             assignedWorkers[0] = allWorkers[i % numWorkers];
