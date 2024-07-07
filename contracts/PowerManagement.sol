@@ -19,4 +19,8 @@ contract PowerManagement {
         registeredWorkers.push(msg.sender);
         emit WorkerRegistered(msg.sender, _machineResources);
     }
+
+    function getRegisteredWorkers() external view returns (address[] memory) {
+        return registeredWorkers;
+    }
 }
