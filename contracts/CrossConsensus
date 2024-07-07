@@ -1,4 +1,7 @@
 // SPDX-License-Identifier: MIT
+// This is an experimental version, please refer to the paper for specific implementation: Refiner: a reliable and efficient incentive-driven federated learning system powered by
+blockchain. The VLDB Journal (2024), 1–25
+
 pragma solidity ^0.8.0;
 
 import "./FeeManagement.sol";
