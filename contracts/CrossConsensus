@@ -1,0 +1,50 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+import "./FeeManagement.sol";
+import "./TaskManagement.sol";
+
+contract CrossConsensus {
+
+    FeeManagement public feeManagement;
+    TaskManagement public taskManagement;
+
+    struct HashEntry {
+        uint count;
+        string CID;
+    }
+
+    mapping(string => HashEntry) public hashEntries;
+    string[] public hashes;
+
+    constructor(address _feeManagementAddress, address _taskManagementAddress) {
+        feeManagement = FeeManagement(_feeManagementAddress);
+        taskManagement = TaskManagement(_taskManagementAddress);
+    }
+
+    function submitConsensus(string memory _hash, string memory _CID, address[] memory _addresses) public {
+        if (hashEntries[_hash].count == 0) {
+            hashes.push(_hash);
+        }
+        hashEntries[_hash].count += 1;
+        hashEntries[_hash].CID = _CID;
+
+        string memory selectedHash;
+        string memory selectedCID;
+        uint maxCount = 0;
+        address[] memory selectedAddresses;
+
+        for (uint i = 0; i < hashes.length; i++) {
+            string memory currentHash = hashes[i];
+            if (hashEntries[currentHash].count > maxCount) {
+                maxCount = hashEntries[currentHash].count;
+                selectedHash = currentHash;
+                selectedCID = hashEntries[currentHash].CID;
+            }
+        }
+
+        feeManagement.distributeFees(memory _addresses);
+        taskManagement.nextround(selectedHash, selectedCID);
+
+    }
+}
