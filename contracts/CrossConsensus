@@ -43,7 +43,7 @@ contract CrossConsensus {
             }
         }
 
-        feeManagement.distributeFees(memory _addresses);
+        feeManagement.distributeFees(_addresses);
         taskManagement.nextround(selectedHash, selectedCID);
 
     }
