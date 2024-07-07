@@ -2,11 +2,13 @@
 pragma solidity ^0.8.0;
 
 contract PowerManagement {
+    event WorkerRegistered(address indexed workerAddress, string machineResources);
 
     //Using mapping to maintain the worker registry
     mapping(address => Worker) public registry;
+    address[] public registeredWorkers;
 
-    event WorkerRegistered(address indexed workerAddress, string machineResources);
+   
     
     function registerWorker(string memory _machineResources) public {
         //Update registry
@@ -14,7 +16,7 @@ contract PowerManagement {
             machineResources: _machineResources,
             isRegistered: true
         });
-
+        registeredWorkers.push(msg.sender);
         emit WorkerRegistered(msg.sender, _machineResources);
     }
 }
