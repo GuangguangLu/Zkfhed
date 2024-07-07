@@ -11,7 +11,6 @@ contract CrossConsensus {
 
     struct HashEntry {
         uint count;
-        string CID;
     }
 
     mapping(string => HashEntry) public hashEntries;
@@ -23,28 +22,22 @@ contract CrossConsensus {
     }
 
     function submitConsensus(string memory _hash, string memory _CID, address[] memory _addresses) public {
-        if (hashEntries[_hash].count == 0) {
-            hashes.push(_hash);
-        }
+
         hashEntries[_hash].count += 1;
-        hashEntries[_hash].CID = _CID;
 
         string memory selectedHash;
-        string memory selectedCID;
         uint maxCount = 0;
-        address[] memory selectedAddresses;
 
         for (uint i = 0; i < hashes.length; i++) {
             string memory currentHash = hashes[i];
             if (hashEntries[currentHash].count > maxCount) {
                 maxCount = hashEntries[currentHash].count;
                 selectedHash = currentHash;
-                selectedCID = hashEntries[currentHash].CID;
             }
         }
 
         feeManagement.distributeFees(_addresses);
-        taskManagement.nextround(selectedHash, selectedCID);
+        taskManagement.nextround(selectedHash, _CID);
 
     }
 }
