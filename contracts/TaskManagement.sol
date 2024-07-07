@@ -10,7 +10,7 @@ contract TaskManagement {
     PowerManagement public powerManagement;
     event TasksAssigned(address indexed requester, string requestCID1, address worker1, address worker2, string requestCID2, address worker3, address worker4);
     event NextRoundStarted(string indexed selectedCID, address worker1, address worker2, address worker3, address worker4);
-    event DataNeeds(address indexed token, string needs);
+    event DataNeeds(string needs);
 
     constructor(address _feeManagementAddress, address _powerManagementAddress) {
         feeManagement = FeeManagement(_feeManagementAddress);
@@ -54,10 +54,10 @@ contract TaskManagement {
         );
     }
 
-    function dataneeds(address token, string memory needs) public payable {
+    function dataneeds(string memory needs) public payable {
         // Call payFees function from FeeManagement contract
         feeManagement.payFees{value: msg.value}();
-        emit DataNeeds(token, needs);
+        emit DataNeeds(needs);
     }
 
 }
