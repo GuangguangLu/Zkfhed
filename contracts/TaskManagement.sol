@@ -2,18 +2,21 @@
 pragma solidity ^0.8.0;
 
 import "./PowerManagement.sol";
+import "./FeeManagement.sol";
 
 contract TaskManagement {
 
     PowerManagement public powerManagement;
     event TasksAssigned(address indexed requester, string requestCID1, address worker1, address worker2, string requestCID2, address worker3, address worker4);
     event NextRoundStarted(string indexed selectedCID, address worker1, address worker2, address worker3, address worker4);
+    event DataNeeds(address indexed token, string needs);
 
     constructor(address _powerManagementAddress) {
         powerManagement = PowerManagement(_powerManagementAddress);
+        feeManagement = FeeManagement(_feeManagementAddress);
     }
 
-    function submitTask(string memory _requestCID1, string memory _requestCID2) public {  
+    function Initiatetraining(string memory _requestCID1, string memory _requestCID2) public {  
         //The training data of two data owners is assigned to four workers
         address[] memory registeredWorkers = powerManagement.getRegisteredWorkers();
 
@@ -48,6 +51,12 @@ contract TaskManagement {
             worker3,
             worker4
         );
+    }
+
+    function dataneeds(address token, string memory needs) public {
+        // Call payFees function from FeeManagement contract
+        feeManagement.payFees{value: msg.value}();
+        emit DataNeeds(token, needs);
     }
 
 }
