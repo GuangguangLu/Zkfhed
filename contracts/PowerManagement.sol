@@ -5,6 +5,10 @@ contract PowerManagement {
     event WorkerRegistered(address indexed workerAddress, string machineResources);
 
     //Using mapping to maintain the worker registry
+    struct Worker {
+        string machineResources;
+        bool isRegistered;
+    }
     mapping(address => Worker) public registry;
     address[] public registeredWorkers;
 
