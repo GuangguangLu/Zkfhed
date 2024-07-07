@@ -7,11 +7,7 @@ contract TaskManagement {
 
     PowerManagement public powerManagement;
     event TasksAssigned(address indexed requester, string requestCID1, address worker1, address worker2, string requestCID2, address worker3, address worker4);
-
-    event TrainingResultSubmitted(
-        address indexed worker,
-        string trainingCID
-    );
+    event NextRoundStarted(string indexed selectedCID, address worker1, address worker2, address worker3, address worker4);
 
     constructor(address _powerManagementAddress) {
         powerManagement = PowerManagement(_powerManagementAddress);
@@ -37,12 +33,21 @@ contract TaskManagement {
         );
     }
 
-    function submitResult(
-        string memory _trainingCID
-    ) public {
-        emit TrainingResultSubmitted(
-            msg.sender,
-            _trainingCID
+    function nextround(string memory selectedHash, string memory selectedCID) public {
+        address[] memory registeredWorkers = powerManagement.getRegisteredWorkers();
+
+        address worker1 = registeredWorkers[0];
+        address worker2 = registeredWorkers[1];
+        address worker3 = registeredWorkers[2];
+        address worker4 = registeredWorkers[3];
+
+        emit NextRoundStarted(
+            selectedCID,
+            worker1,
+            worker2,
+            worker3,
+            worker4
         );
     }
+
 }
