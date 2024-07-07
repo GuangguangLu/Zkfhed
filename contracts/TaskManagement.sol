@@ -1,8 +1,11 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
+import "./PowerManagement.sol";
+
 contract TaskManagement {
 
+    PowerManagement public powerManagement;
     event TasksAssigned(address indexed requester, string requestCID1, address worker1, address worker2, string requestCID2, address worker3, address worker4);
 
     event TrainingResultSubmitted(
@@ -10,16 +13,18 @@ contract TaskManagement {
         string trainingCID
     );
 
-    constructor() {}
+    constructor(address _powerManagementAddress) {
+        powerManagement = PowerManagement(_powerManagementAddress);
+    }
 
-    function submitTask( 
-        string memory _requestCID1,
-        string memory _requestCID2,
-        address worker1,
-        address worker2,
-        address worker3,
-        address worker4
-    ) public {
+    function submitTask(string memory _requestCID1, string memory _requestCID2) public {  
+        //The training data of two data owners is assigned to four workers
+        address[] memory registeredWorkers = powerManagement.getRegisteredWorkers();
+
+        address worker1 = registeredWorkers[0];
+        address worker2 = registeredWorkers[1];
+        address worker3 = registeredWorkers[2];
+        address worker4 = registeredWorkers[3];
     
         emit TasksAssigned(
             msg.sender,
