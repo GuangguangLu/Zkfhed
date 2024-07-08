@@ -32,6 +32,7 @@ contract CrossConsensus {
 
         
         // Count the hashes and store corresponding CIDs and addresses
+        //Assuming that each hash value corresponds to a CID and three addresses.
         for (uint256 i = 0; i < hashes.length; i++) {
             hashCount[hashes[i]].count++;
             hashCount[hashes[i]].cid = cids[i];
