@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MIT
 // This is an experimental version, please refer to the paper for specific implementation: Refiner: a reliable and efficient incentive-driven federated learning system powered by
-blockchain. The VLDB Journal (2024), 1–25
+
 
 pragma solidity ^0.8.0;
 
@@ -12,35 +12,49 @@ contract CrossConsensus {
     FeeManagement public feeManagement;
     TaskManagement public taskManagement;
 
-    struct HashEntry {
-        uint count;
-    }
+    event MostFrequentHash(string hash, string cid, address[] addresses);
 
-    mapping(string => HashEntry) public hashEntries;
-    string[] public hashes;
+    struct HashInfo {
+        uint256 count;
+        string cid;
+        address[] addresses;
+    }
+	
+    mapping(string => HashInfo) public hashCount;
 
     constructor(address _feeManagementAddress, address _taskManagementAddress) {
         feeManagement = FeeManagement(_feeManagementAddress);
         taskManagement = TaskManagement(_taskManagementAddress);
     }
+	
 
-    function submitConsensus(string memory _hash, string memory _CID, address[] memory _addresses) public {
+    function submitConsensus(string[] memory hashes, string[] memory cids, address[] memory addresses) public {
 
-        hashEntries[_hash].count += 1;
-
-        string memory selectedHash;
-        uint maxCount = 0;
-
-        for (uint i = 0; i < hashes.length; i++) {
-            string memory currentHash = hashes[i];
-            if (hashEntries[currentHash].count > maxCount) {
-                maxCount = hashEntries[currentHash].count;
-                selectedHash = currentHash;
+        
+        // Count the hashes and store corresponding CIDs and addresses
+        for (uint256 i = 0; i < hashes.length; i++) {
+            hashCount[hashes[i]].count++;
+            hashCount[hashes[i]].cid = cids[i];
+            hashCount[hashes[i]].addresses = new address[](3);
+            for (uint256 j = 0; j < 3; j++) {
+                hashCount[hashes[i]].addresses[j] = addresses[i * 3 + j];
             }
         }
 
-        feeManagement.distributeFees(_addresses);
-        taskManagement.nextround(selectedHash, _CID);
+        // Determine the most frequent hash
+        string memory mostFrequentHash = hashes[0];
+        uint256 maxCount = 0;
+
+        for (uint256 i = 0; i < hashes.length; i++) {
+            if (hashCount[hashes[i]].count > maxCount) {
+                mostFrequentHash = hashes[i];
+                maxCount = hashCount[hashes[i]].count;
+            }
+        }
+    
+        emit MostFrequentHash(mostFrequentHash, hashCount[mostFrequentHash].cid, hashCount[mostFrequentHash].addresses);
+        feeManagement.distributeFees(hashCount[mostFrequentHash].addresses);
+        taskManagement.nextround(mostFrequentHash, hashCount[mostFrequentHash].cid);
 
     }
 }
